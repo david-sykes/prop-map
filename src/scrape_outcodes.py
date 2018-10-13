@@ -2,16 +2,30 @@ from utils import PropertiesDB
 from scrape import perform_scrape    
 
 INPUTS = (
-    {'searchName':'SW11',
+    {'searchName':'N1',
     'locationIdentifier': 'OUTCODE^2497',
      'radius': 0,
      'maxPrice': 750000,
-     'minPrice': 500000},
-   
-
-     
-
-
+     'minPrice': 500000,
+     },
+    {'searchName':'N5',
+    'locationIdentifier': 'OUTCODE^2497',
+     'radius': 0,
+     'maxPrice': 750000,
+     'minPrice': 500000,
+     },
+    {'searchName':'N7',
+    'locationIdentifier': 'OUTCODE^2497',
+     'radius': 0,
+     'maxPrice': 750000,
+     'minPrice': 500000,
+     },
+    {'searchName':'N19',
+    'locationIdentifier': 'OUTCODE^2497',
+     'radius': 0,
+     'maxPrice': 750000,
+     'minPrice': 500000,
+     },
 )
 
 
