@@ -19,8 +19,8 @@ class DataLoader(object):
     def __init__(self):
         self.db = PropertiesDB()
 
-    def load_data(self):
-        sql = """SELECT * FROM properties WHERE retrieved_at = '2018-10-13' and search_name like 'N%'"""
+
+    def load_data(self, sql):
         return pd.read_sql(sql, self.db.conn)
 
 
