@@ -9,9 +9,6 @@ TABLE = os.environ.get('TABLE')
 URL = os.environ.get('URL')
 PER_PAGE = 499
 
-
-
-
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
@@ -30,7 +27,7 @@ logger.addHandler(handler)
 
 def generate_payload(input):
     payload = input.copy()
-    payload['includeSSTC'] = 'false'
+    payload['includeSSTC'] = 'true'
     payload['viewType'] = 'LIST'
     payload['channel'] = 'BUY'
     payload['areaSizeUnit'] = 'sqft'
@@ -104,6 +101,7 @@ def parse_property(p_dict):
     p.first_visible_date = parse_date(p_dict['firstVisibleDate'])
     p.url = p_dict['propertyUrl']
     p.summary = p_dict['summary']
+    p.display_status = p_dict['displayStatus']
     return p
 
 def perform_scrape(inputs, db_conn):
