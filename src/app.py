@@ -3,13 +3,15 @@
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
+import plotly.plotly as py
+import plotly.graph_objs as go
 from flask import Flask
-import DataLoader from utils
+from utils import DataLoader
 
 app = dash.Dash(__name__)
 
-
-df = DataLoader().load_data()
+dl = DataLoader()
+df = dl.load_data()
 
 app.layout = html.Div(children=[
     html.H1(children='sup Dash'),
