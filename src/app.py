@@ -4,9 +4,12 @@ import dash
 import dash_core_components as dcc
 import dash_html_components as html
 from flask import Flask
+import DataLoader from utils
 
 app = dash.Dash(__name__)
 
+
+df = DataLoader().load_data()
 
 app.layout = html.Div(children=[
     html.H1(children='sup Dash'),
