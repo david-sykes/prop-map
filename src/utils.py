@@ -15,13 +15,15 @@ class PropertiesDB(object):
                                 password=self.DB_PASSWORD)
 
 
-def load_all_data(db_conn=None):
-    if db_conn:
-        sql = """SELECT * FROM properties;"""
-        return pd.read_sql(sql, db_conn)
-    else:
-        return pd.read_csv('~/Downloads/properties.csv')
+class DataLoader(object):
+    def __init__(self):
+        self.db = PropertiesDB()
+
+    def load_data(self):
+        sql = """SELECT * FROM properties WHERE retrieved_at = '2018-10-13' and search_name like 'N%'"""
+        return pd.read_sql(sql, self.db.conn)
 
 
 if __name__ == "__main__":
-    df = load_all_data()
+    dl = DataLoader()
+    df = dl.load_data()
