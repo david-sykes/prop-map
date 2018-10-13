@@ -1,0 +1,22 @@
+CREATE TABLE properties (
+search_name text,
+id integer,
+price numeric,
+bedrooms integer,
+display_address text,
+lat numeric,
+lon numeric,
+update_reason text,
+update_date date,
+premium_listing boolean,
+featured_property boolean,
+display_price_qualifier text,
+property_subtype text,
+branch_id integer,
+branch_name text,
+development boolean,
+first_visible_date date,
+url text,
+summary text,
+retrieved_at date
+);

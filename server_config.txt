@@ -1,0 +1,11 @@
+wget 'https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh'
+bash Miniconda3-latest-Linux-x86_64.sh
+setup postgres server
+
+CREATE USER scraper WITH PASSWORD '';
+
+GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public;
+
+
+
+
