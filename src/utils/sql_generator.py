@@ -5,4 +5,4 @@ class SqlGenerator(object):
         }
 
     def getSQL(self, category):
-        return QUERIES[category] or "Not a valid query category"
+        return self.QUERIES[category] or "Not a valid query category"
