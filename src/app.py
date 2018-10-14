@@ -8,7 +8,7 @@ import plotly.graph_objs as go
 from flask import Flask
 from utils import db_utils
 from utils import sql_generator
-from utils import data_parser
+from utils import data_parser_helpers as dp
 import numpy as np
 import pandas as pd
 
@@ -16,21 +16,10 @@ app = dash.Dash(__name__)
 
 dl = db_utils.DataLoader()
 sg = sql_generator.SqlGenerator()
-dp = data_parser.DataParser()
 
-df = dl.load_data(sg.getSQL('subset'))
-df = dp.parseDates(df)
-
-maxAge = df["age"].max()
-minAge = df["age"].min()
-
-def getColorIndex(property):
-    percentile = (age - minAge)/(maxAge - minAge)
-    index = percentile/(1/24)
-    return index
-
-def mapToColorIndex(array):
-    return list(map(getColorIndex, array))
+sql = sg.get_sql('subset')
+df = dl.load_data(sql)
+df = dp.parse_dates(df)
 
 mapbox_access_token = os.environ.get('MAPBOX_ACCESS_TOKEN')
 
@@ -41,7 +30,7 @@ data = [
         mode='markers',
         marker=dict(
             size=9,
-            color=mapAgeToColorIndex(df["age"].values),
+            color=dp.map_percentiles(df["age"].values),
             colorscale=[[0, 'rgb(244,236,21)'], [0.021, 'rgb(218,240,23)'],
                                 [0.042, 'rgb(187,236,25)'], [0.063, 'rgb(157,232,27)'],
                                 [0.084, 'rgb(128,228,29)'], [0.115, 'rgb(102,224,31)'],
