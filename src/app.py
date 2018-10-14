@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import dash, datetime, math, os
+import dash, datetime, math, os, sys, argparse
 import dash_core_components as dcc
 import dash_html_components as html
 import plotly.plotly as py
@@ -13,11 +13,19 @@ import numpy as np
 import pandas as pd
 
 app = dash.Dash(__name__)
-
 dl = db_utils.DataLoader()
 sg = sql_generator.SqlGenerator()
+parser = argparse.ArgumentParser()
 
-sql = sg.get_sql('subset')
+parser.add_argument('--dataset', help='Define the dataset you want to use')
+args = parser.parse_args()
+dataset = args.dataset
+
+if dataset:
+    sql = sg.get_sql(dataset)
+else:
+    sql = sg.get_sql('subset')
+
 df = dl.load_data(sql)
 df = dp.parse_dates(df)
 
@@ -46,6 +54,7 @@ data = [
 layout = go.Layout(
     autosize=True,
     hovermode='closest',
+    height=700,
     mapbox=dict(
         accesstoken=mapbox_access_token,
         bearing=0,
@@ -63,11 +72,23 @@ app.layout = html.Div(children=[
     html.H1(children='Property Dash'),
 
     html.Div(children='''
-        Age of property
+        Map of properties in area
     '''),
-
+    dcc.Dropdown(
+                id='feature-dropdown',
+                options=[
+                    {'label': 'Price', 'value': 'price'},
+                    {'label': 'Age', 'value': 'age'},
+                    {'label': 'Estate Agent', 'value': 'branch_name'},
+                    {'label': 'No. of bedrooms', 'value': 'bedrooms'},
+                    {'label': 'Property type', 'value': 'property_subtype'}
+                ],
+                value="Price",
+                placeholder="Price",
+                className="feature-picker"
+            ),
     dcc.Graph(
-        id='age_of_prop',
+        id='prop_details',
         figure={
             'data': data,
             'layout': layout
