@@ -6,11 +6,11 @@ import dash_html_components as html
 import plotly.plotly as py
 import plotly.graph_objs as go
 from flask import Flask
-from utils import DataLoader
+from utils import db_utils as db
 
 app = dash.Dash(__name__)
 
-dl = DataLoader()
+dl = db.DataLoader()
 df = dl.load_data()
 
 app.layout = html.Div(children=[
