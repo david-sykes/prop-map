@@ -14,3 +14,11 @@ def map_percentiles(data_array):
     max = data_array.max()
     min = data_array.min()
     return list(map(functools.partial(calculate_percentile, max, min), data_array))
+
+def get_data_type(category):
+    DATA_TYPES = {"age":"continuous",
+                  "price": "continuous",
+                  "bedrooms": "continuous",
+                  "branch_name": "discrete",
+                  "property_subtype": "discrete"}
+    return DATA_TYPES.get(category, None)
