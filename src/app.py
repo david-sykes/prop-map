@@ -13,6 +13,7 @@ from utils import data_parser_helpers as dp
 from utils import graph_plot_helpers as gp
 import numpy as np
 import pandas as pd
+import pdb
 
 app = dash.Dash(__name__)
 dl = db_utils.DataLoader()
@@ -63,17 +64,19 @@ def update_map(value):
     datatype = dp.get_data_type(value)
     if datatype == "continuous":
         config = gp.get_continuous_scatter_config(df, value, mapbox_access_token)
+        data = [
+        go.Scattermapbox(
+            lat=df['lat'],
+            lon=df['lon'],
+            mode='markers',
+            marker=config["marker"],
+        )
+        ]
     else:
         config = gp.get_discrete_scatter_config(df, value, mapbox_access_token)
+        data = gp.get_discrete_datasets(df, value)
 
-    data = [
-    go.Scattermapbox(
-        lat=df['lat'],
-        lon=df['lon'],
-        mode='markers',
-        marker=config["marker"],
-    )
-    ]
+
     return go.Figure(data=data, layout=config["layout"])
 
 

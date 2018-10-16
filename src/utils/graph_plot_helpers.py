@@ -5,7 +5,7 @@ def get_continuous_scatter_config(data, category, access_token):
     marker=dict(
         size=4,
         opacity=0.5,
-        color=dp.map_percentiles(data[category].values),
+        color=data[category].values,
         colorscale=[[0, 'rgb(244,236,21)'], [0.021, 'rgb(218,240,23)'],
                             [0.042, 'rgb(187,236,25)'], [0.063, 'rgb(157,232,27)'],
                             [0.084, 'rgb(128,228,29)'], [0.115, 'rgb(102,224,31)'],
@@ -20,9 +20,11 @@ def get_continuous_scatter_config(data, category, access_token):
             "outlinecolor": 'rgba(68,68,68,0)',
             "ticks": 'inside',
             "ticklen": 3,
+            "tickmode": "array",
+            "tickvals": [0, 1],
+            "ticktext": [data[category].min(), data[category].max()],
             "ticksuffix": 'k',
-            "tickprefix": '£',
-            "dtick": 0.1}
+            "tickprefix": '£'}
     )
 
     layout = go.Layout(
@@ -46,11 +48,6 @@ def get_continuous_scatter_config(data, category, access_token):
 
 
 def get_discrete_scatter_config(data, category, access_token):
-    marker=dict(
-        size=4,
-        color=data[category].values,
-    )
-
     layout = go.Layout(
     autosize=True,
     hovermode='closest',
@@ -68,4 +65,25 @@ def get_discrete_scatter_config(data, category, access_token):
         style="dark"
     ),
     )
+
+    marker = {}
+
     return {"marker": marker, "layout": layout}
+
+def get_discrete_datasets(data, category):
+    values = set(data[category].values)
+    dataset = []
+    for value in values:
+        filtered_data = data[data[category] == value]
+        dataset.append(
+        go.Scattermapbox(
+            lat=filtered_data['lat'],
+            lon=filtered_data['lon'],
+            mode="markers",
+            marker=dict(
+            size=4,
+            opacity=0.5
+            ),
+            name=value
+        ))
+    return dataset
