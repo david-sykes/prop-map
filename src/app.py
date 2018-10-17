@@ -31,6 +31,7 @@ else:
 
 df = dl.load_data(sql)
 df = dp.parse_dates(df)
+df = dp.transform_branch_names(df, 10)
 
 mapbox_access_token = os.environ.get('MAPBOX_ACCESS_TOKEN')
 

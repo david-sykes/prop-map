@@ -22,3 +22,16 @@ def get_data_type(category):
                   "branch_name": "discrete",
                   "property_subtype": "discrete"}
     return DATA_TYPES.get(category, None)
+
+def transform_branch_names(dataframe, max_branches):
+    if 'branch_name' in dataframe:
+        branch_counts = dataframe.branch_name.value_counts()
+        top_branches = branch_counts.iloc[0:max_branches]
+        dataframe['branch_name'] = dataframe['branch_name'].apply((lambda branch: fill_branch_name(top_branches, branch)))
+        return dataframe
+
+def fill_branch_name(top_branches, name):
+    if name in top_branches:
+        return name
+    else:
+        return 'Other'
