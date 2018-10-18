@@ -19,6 +19,8 @@ def get_continuous_scatter_config(data, category, access_token):
             "titleside": 'right',
             "outlinecolor": 'rgba(68,68,68,0)',
             "ticks": 'inside',
+            "x": 0.95,
+            "xpad": 0,
             "ticklen": 3,
             "tickmode": "array",
             "tickvals": [0, 1],
@@ -30,8 +32,9 @@ def get_continuous_scatter_config(data, category, access_token):
     layout = go.Layout(
         autosize=True,
         hovermode='closest',
-        height=700,
+        height=500,
         showlegend=False,
+        margin = dict(l = 0, r = 0, t = 0, b = 0),
         mapbox=dict(
             accesstoken=access_token,
             bearing=0,
@@ -51,8 +54,9 @@ def get_discrete_scatter_config(data, category, access_token):
     layout = go.Layout(
     autosize=True,
     hovermode='closest',
-    height=700,
+    height=500,
     showlegend=True,
+    margin=dict(l = 0, r = 0, t = 0, b = 0),
     mapbox=dict(
         accesstoken=access_token,
         bearing=0,

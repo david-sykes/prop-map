@@ -15,7 +15,14 @@ import numpy as np
 import pandas as pd
 import pdb
 
-app = dash.Dash(__name__)
+external_stylesheets=[ "https://fonts.googleapis.com/css?family=Raleway:400,600" ]
+external_scripts = [    {
+        'src': "https://code.jquery.com/jquery-3.3.1.min.js",
+        'integrity': "sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=",
+        'crossorigin': "anonymous"
+    }]
+
+app = dash.Dash(__name__, external_stylesheets=external_stylesheets, external_scripts=external_scripts)
 dl = db_utils.DataLoader()
 sg = sql_generator.SqlGenerator()
 parser = argparse.ArgumentParser()
@@ -36,10 +43,13 @@ df = dp.transform_branch_names(df, 10)
 mapbox_access_token = os.environ.get('MAPBOX_ACCESS_TOKEN')
 
 app.layout = html.Div(children=[
-    html.H1(children='Property Dash'),
+    html.Div([
+    html.Img(id="logo", src='/assets/logo.png'),
+    html.H1(id="title", children='LONDON PROPERTY MAP')
+    ]),
 
-    html.Div(children='''
-        Map of properties in area
+    html.Div(id="summary", children='''
+        A tool that lets you explore London's property market and visualise patterns in the associated data
     '''),
     dcc.Dropdown(
                 id='feature-dropdown',
