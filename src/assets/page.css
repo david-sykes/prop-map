@@ -39,3 +39,7 @@ body {
 #feature-dropdown .Select-control {
     border: 1px solid #F9F777;
 }
+
+#histogram {
+  margin-top: 1em;
+}

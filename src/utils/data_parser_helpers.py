@@ -1,5 +1,6 @@
 import pandas as pd
 import datetime, functools
+import math
 
 def parse_dates(df):
     df['first_visible_date'] = pd.to_datetime(df['first_visible_date'])
@@ -35,3 +36,19 @@ def fill_branch_name(top_branches, name):
         return name
     else:
         return 'Other'
+
+def get_histogram_xaxis_config(data_series):
+    min = data_series.min()
+    max = data_series.max()
+    if min == 0 and max == 0:
+        return (0, 1, 0.1)
+    elif min == 0:
+        x_min = 0
+    else:
+        x_min_exponent = math.floor(math.log10(min))
+        x_min = 10 ** x_min_exponent
+
+    x_max_exponent = math.ceil(math.log10(max))
+    x_max = 10 ** x_max_exponent
+    interval = x_min/2
+    return (x_min, x_max, interval)

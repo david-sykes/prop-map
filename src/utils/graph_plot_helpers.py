@@ -17,7 +17,7 @@ def get_continuous_scatter_config(data, category, access_token):
         colorbar={
             "thickness": 10,
             "titleside": 'right',
-            "outlinecolor": 'rgba(68,68,68,0)',
+            "outlinecolor": '#444444',
             "ticks": 'inside',
             "x": 0.95,
             "xpad": 0,
@@ -73,6 +73,71 @@ def get_discrete_scatter_config(data, category, access_token):
     marker = {}
 
     return {"marker": marker, "layout": layout}
+
+def get_continuous_histogram_config(data, category):
+    (min, max, interval) = dp.get_histogram_xaxis_config(data[category].values)
+    return {
+        'data': [
+            {
+                'x': data[category],
+                'name': category.capitalize(),
+                'type': 'histogram',
+                'autobinx': False,
+                'xbins': {
+                    'start': min,
+                    'end': max,
+                    'size': interval
+                }
+            }
+        ],
+        'layout': {
+            'margin': {'l': 70, 'r': 40, 't': 40, 'b': 60},
+            'autosize': True,
+            'plot_bgcolor': '#333333',
+            'paper_bgcolor': '#333333',
+            'font': {
+                'color': '#FFF'
+            },
+            
+            'xaxis': {
+                'autorange': True,
+                'title': category.capitalize(),
+                'showticklabels': True,
+                'type': 'linear',
+                'visible': True,
+                'tickmode': 'auto',
+                'ticklen': 10,
+                'tickcolor': '#B2B2B2',
+                'tickfont': {
+                    'family': 'Raleway, sans-serif',
+                    'color': '#B2B2B2'
+                },
+                'titlefont': {
+                    'family': 'Raleway, sans-serif',
+                    'color': '#B2B2B2'
+                }
+                },
+            'yaxis': {
+                'title': 'Count',
+                'autorange': True,
+                'showticklabels': True,
+                'type': 'linear',
+                'visible': True,
+                'tickmode': 'auto',
+                'ticklen': 5,
+                'tickcolor': '#B2B2B2',
+                'tickfont': {
+                    'family': 'Raleway, sans-serif',
+                    'color': '#B2B2B2'
+                },
+                'titlefont': {
+                    'family': 'Raleway, sans-serif',
+                    'color': '#B2B2B2'
+                }
+                },
+        }
+    }
+
 
 def get_discrete_datasets(data, category):
     values = set(data[category].values)

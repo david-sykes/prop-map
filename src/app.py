@@ -64,13 +64,12 @@ app.layout = html.Div(children=[
                 placeholder="Price",
                 className="feature-picker"
             ),
-    dcc.Graph(
-        id='map-graph',
-    )
+    dcc.Graph(id='map-graph'),
+    dcc.Graph(id='histogram')
 ])
 
 @app.callback(Output("map-graph", "figure"),
-              [Input("feature-dropdown", "value")])
+             [Input("feature-dropdown", "value")])
 def update_map(value):
     datatype = dp.get_data_type(value)
     if datatype == "continuous":
@@ -90,7 +89,15 @@ def update_map(value):
 
     return go.Figure(data=data, layout=config["layout"])
 
-
+@app.callback(Output("histogram", "figure"),
+            [Input("feature-dropdown", "value")])
+def update_histogram(value):
+    datatype = dp.get_data_type(value)
+    if datatype == "continuous":
+        result = gp.get_continuous_histogram_config(df, value)
+        return go.Figure(data=result['data'], layout=result['layout'])
+    else:
+        return go.Figure()
 
 if __name__ == '__main__':
     app.run_server()
