@@ -2,6 +2,7 @@ import requests
 import os
 from datetime import datetime
 import logging
+import time
 
 print(os.path.realpath(__file__))
 
@@ -48,7 +49,7 @@ def get_pages(payload):
     pages = response['pagination']['options']
     return pages
 
-def get_all_properties_for_payload(payload):
+def get_all_properties_for_payload(payload, delay=3):
     pages = get_pages(payload)
     logger.info(f'Total number of pages: {len(pages)}')
     properties_list = []
@@ -57,6 +58,7 @@ def get_all_properties_for_payload(payload):
         params = payload.copy()
         properties = get_page_of_properties(payload, page['value'])
         properties_list.extend(properties)
+        time.sleep(delay)
     return properties_list
 
 
@@ -104,7 +106,7 @@ def parse_property(p_dict):
     p.display_status = p_dict['displayStatus']
     return p
 
-def perform_scrape(inputs, db_conn):
+def perform_scrape(inputs, db_conn, delay=300):
     logger.info('Starting scrape')
     scraped_ids = []
     payloads = [generate_payload(i) for i in inputs]
@@ -126,6 +128,7 @@ def perform_scrape(inputs, db_conn):
                 scraped_ids.append(p_save.id)
             except Exception as e:
                 logger.error(f"Problem saving {prop['id']}", exc_info=True)
+        time.sleep(delay)
     logger.info('Finished scrape')
 
 
