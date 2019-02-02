@@ -8,3 +8,6 @@ create_table:
 
 db_login:
 		psql -h $(DB_HOST) -d $(DB_NAME) -p $(DB_PORT) -U $(DB_USER)
+
+run_container_ec2:
+		sudo docker run -d -p 80:80 --env-file .env prop-map

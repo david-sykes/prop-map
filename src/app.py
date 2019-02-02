@@ -100,4 +100,4 @@ def update_histogram(value):
         return go.Figure()
 
 if __name__ == '__main__':
-    app.run_server()
+    app.run_server(host='0.0.0.0')
