@@ -13,7 +13,7 @@ from utils import data_parser_helpers as dp
 from utils import graph_plot_helpers as gp
 import numpy as np
 import pandas as pd
-import pdb
+# import pdb
 
 external_stylesheets=[ "https://fonts.googleapis.com/css?family=Raleway:400,600" ]
 external_scripts = [    {
@@ -100,4 +100,4 @@ def update_histogram(value):
         return go.Figure()
 
 if __name__ == '__main__':
-    app.run_server()
+    app.run_server(debug=True,port=8050,host="0.0.0.0")
